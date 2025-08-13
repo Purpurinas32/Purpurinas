@@ -6,6 +6,7 @@ let senhaCorreta = "LivrosTopzera";
 let tentativas = 0;
 let acessoPermitido = false;
 
+// Autenticação por senha
 while (tentativas < 3) {
   let senhaDigitada = prompt("Digite a senha para acessar: ");
 
@@ -24,8 +25,7 @@ if (!acessoPermitido) {
   process.exit();
 }
 
-let opcao;
-
+// Funções
 function CadastrarCliente() {
   let nomeCliente = prompt("Digite o nome do cliente: ");
   if (nomeCliente && nomeCliente.trim() !== "") {
@@ -96,6 +96,26 @@ function VisualizarInformacoes() {
   }
 }
 
+function DevolverLivro() {
+  let nomeCliente = prompt("Digite o nome do cliente: ");
+  let cliente = clientes.find((c) => c.nome === nomeCliente);
+
+  if (!cliente) {
+    console.log("Cliente não encontrado.\n");
+    return;
+  }
+
+  if (!cliente.livroAlugado) {
+    console.log("O cliente não possui livro alugado.\n");
+    return;
+  }
+
+  cliente.livroAlugado = null;
+  console.log("Livro devolvido com sucesso!\n");
+}
+
+// Menu
+let opcao;
 do {
   opcao = prompt(
     "\n===== MENU =====\n" +
@@ -105,7 +125,8 @@ do {
       "4 - Excluir livro\n" +
       "5 - Visualizar informações\n" +
       "6 - Alugar livro para cliente\n" +
-      "7 - Sair\n" +
+      "7 - Devolver livro\n" +
+      "8 - Sair\n" +
       "Escolha uma opção: "
   );
 
@@ -161,10 +182,14 @@ do {
       break;
 
     case "7":
+      DevolverLivro();
+      break;
+
+    case "8":
       console.log("Saindo do sistema...");
       break;
 
     default:
       console.log("Opção inválida. Tente novamente.\n");
   }
-} while (opcao !== "7");
+} while (opcao !== "8");
